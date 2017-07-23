@@ -90,8 +90,6 @@ var imagesData = ko.observableArray([
 
   ]);
 
-
-
 var Image = function(data) {
 	this.category = ko.observable(data.category);
 	this.name = ko.observable(data.name);
@@ -100,11 +98,6 @@ var Image = function(data) {
 	this.imgAttribute = ko.observable(data.imgAttribute);	
 	this.clickCount = ko.observable(data.clickCount);
 	this.nickNames = ko.observableArray(data.nickNames);
-	/*
-	this.nickNames = ko.applyBindings(data.nickNames); 
-	Can also use this
-	*/
-
 	this.ranks = ko.observableArray(data.ranks);
 	
 	this.imgRank = ko.computed(function() {
@@ -132,7 +125,6 @@ var Image = function(data) {
 	}, this);
 }
 
-
 var ViewModel = function() {
 	var self = this;
 
@@ -152,25 +144,6 @@ var ViewModel = function() {
         self.currentImage = ko.observable(chosenImage);
     }
 	
-
-	/*
-	this.currentImage = ko.observable(new Image());
-	this.incrementCounter = function() {
-		this.clickCount(this.clickCount() + 1);
-	};
-	*/
-
 };
-
-/* This is also good to use
-var ViewModel = function() {
-	var self = this;
-	this.currentImage = ko.observable(new Image());
-	this.incrementCounter = function() {
-		self.currentImage().clickCount(self.currentImage().clickCount() + 1);
-	};	
-
-};
-*/
 
 ko.applyBindings(new ViewModel());
