@@ -10,9 +10,12 @@
 - Consider displaying names of Images in Option list in alphabetical order for ease of reference
 - Allow for any type of image. Not necessarily cat alone.
 
-##Implementation
+## Implementation
 Each expectation was achieved using MOV. Key implementations are:
 - Created data array. each image is an object of the data array. Hence more images can be added without effect on the scripts
 - Created octopus. This object holds the function objects to select image, process selection for display and update image property (count).
 - Created view object. It hold the function to render the selected image and counter
-- User can change the name and alternative (alt) attribute of selected image.
+- User can change the name and alt attribute of selected image.
+
+## Using Knockout JS
+
