@@ -1,129 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content=" Managing Changing Expectations In Projects: The Cat Clicker Case ">
-    <meta name="author" content=" Olu Adabonyan ">
-    <title>Image Clicker</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content=" Managing Changing Expectations In Projects: The Cat Clicker Case ">
+  <meta name="author" content=" Olu Adabonyan ">
+  <title>Image Clicker</title>
 
-    <link href="css/style.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 
-    <style type="text/css">
-      @media only screen and (max-width: 459px) {
-        body {
-          background-color: bisque;
-          font-size: 1em;
-          width: 100vw;
-        }
+  <style type="text/css">
+    @media only screen and (max-width: 485px) {
+      body {
+        background-color: bisque;
+        font-size: 1em;
+        width: 100vw;
+      }
 
-        #footerP, #perfReport {font-size: 12px; font-weight: bold;}
+      #footerP, #perfReport {font-size: 12px; font-weight: bold;}
 
-        h1 {font-size: 18px;}
-      }      
+      h1 {font-size: 18px;}
+    }      
 
-    </style>
+  </style>
+
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>Welcome to Image Clicker</h1>
-        </header>
 
-        <hr>
+  <div class="container">
+    <header>
+      <h1>Welcome to Image Clicker</h1>
+    </header>
+    
+    <div id="main">
+      <p>Select image:
+        <select data-bind="options: imagesModels,
+             optionsText: 'name',
+             value: selectedImage,
+             optionsCaption: ' '">                                    
+        </select>                
+        <br>
 
-        <div id="main">
-
-            <p>Select your image
-                <select data-bind="foreach: imagesModels, selectedOptions: chosenImage">
-                    <option data-bind="text: name"></option>
-                </select>      
-
-                <button id="displayImageBtn" type="button" data-bind="click: displayChosenImage()">Submit</button>
-                <br>
-                Now start clicking. You can also change the image<br>
-            </p>
-
-        </div>
-
-        <div id="image" data-bind="with: currentImage()">  
-
-            <h2 id="image-category" data-bind="text: category"></h2>
-            <h2 id="image-name" data-bind="text: name"></h2>
-            <div id="image-clickCount" data-bind="text: clickCount"></div>
-            <div id="image-rank" data-bind="text: imgRank"></div>       
-            <img id="img" data-bind="click: $parent.incrementCounter, attr: {src: imgSRC}, alt: imgALT">
-            <h3>NickNames</h3>
-            <ul data-bind="foreach: nickNames"> 
-                <li data-bind="text: $data"></li>
-                
-            </ul>
-
-        </div>
-
-      <div id="admin">
-        <button id="adminButton" type="button">Admin</button><br>
-
-        <form id="adminForm" class="hideAdminform">
-
-          <label for="name">Name: </label>
-          <input id="imageName" type="text"><br>
-
-          <label for="name">Description: </label>
-          <input id="imageALT" type="text"><br>
-
-          <label for="source">Source: </label>
-          <input id="imageSRC" type="text" readonly><br>
-
-          <label for="counter">Counter: </label>
-          <input id="counter" style="width: 50px; text-align: right;" id="nuOfclicks" type="number" readonly>
-          <br>
-
-          <button id="cancel" type="button">Cancel</button>
-          <button id="save" type="button">Save</button>
-
-        </form>
-
-      </div>
-      <br>
-
-      <footer>
-        <p id="perfReport"></p>
-      </footer>
+        Now start clicking the image. You can also change the image<br>
+      </p>
 
     </div>
 
-    <script src="js/lib/knockout-3.4.2.js"></script> 
-    <script src="js/app.js"></script>
+    <div id="image" data-bind="visible: selectedImage, with: selectedImage()"> <!-- Appears when you select something -->         
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script async src="//www.google-analytics.com/analytics.js"></script>
+      <figure>
+        <figcaption>
+          <h4 class="figCapItem">Category:</h4>
+          <p class="figCapItem" data-bind="text: category"></p>
+          <h4 class="figCapItem">Name:</h4>
+          <p class="figCapItem" data-bind="text: name"></p>
+          <h4 class="figCapItem">Level:</h4>
+          <p class="figCapItem" data-bind="text: imgRank"></p>
+          <h4 class="figCapItem">Count:</h4> 
+          <span class="figCapItem" data-bind="text: clickCount"></span>                  
+        </figcaption>
+
+        <picture>
+          <img data-bind="click: $parent.incrementCounter, attr: {src: imgSRC}, alt: imgALT">                  
+        </picture>
+
+        <figcaption>
+          <p style="display: inline;">
+            <span id="pSpan">NickNames:</span>           
+            <ul style="list-style-type:disc; display: inline;" data-bind="foreach: nickNames"> 
+              <li style="display: inline; color: blue; font-weight: bold;" data-bind="text: $data"></li>/            
+            </ul>
+          </p>            
+        </figcaption>
+
+      </figure>
+
+    </div>        
+
+    <div id="admin">        
+      <button id="adminButton" type="button">Admin</button><br>
+
+      <div id="adminForm" class="hideAdminform" data-bind="with: selectedImage()">        
+
+        <label for="name">Name: </label>
+        <input id="imageName" type="text" data-bind="value: name"><br>
+
+        <label for="alt">Description: </label>
+        <input id="imageALT" type="text" data-bind="value: imgALT"><br>
+
+        <label for="source">Source: </label>
+        <input id="imageSRC" type="text" data-bind="value: imgSRC" readonly><br>
+
+        <label for="counter">Counter: </label>
+        <input id="counter" style="width: 50px; text-align: right;" id="nuOfclicks" type="number" data-bind="value: clickCount" readonly>
+        <br>
+
+        <button id="cancel" onclick="cancelAdminOps()" type="button">Cancel</button>
+        <button id="save" onclick="saveAdminData()" type="button">Save</button>
+
+      </div>
+
+    </div>
+    <br>
+
+    <footer>
+      <p id="perfReport"></p>
+    </footer>
+
+  </div>
+
+  <script src="js/lib/knockout-3.4.2.js"></script> 
+  <script src="js/app.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script async src="//www.google-analytics.com/analytics.js"></script>
     
 
 
-    <script async>
-      (function(w,g){w['GoogleAnalyticsObject']=g;
-      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
+  <script async>
+    (function(w,g){w['GoogleAnalyticsObject']=g;
+    w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
 
-      // Optional TODO: replace with your Google Analytics profile ID.
-      ga('create', 'UA-100366417-2');
-      ga('send', 'pageview');
-    </script>
+    // Optional TODO: replace with your Google Analytics profile ID.
+    ga('create', 'UA-100366417-2');
+    ga('send', 'pageview');
+  </script>
 
-    <script async>
-      function logCRP() {
-        var t = window.performance.timing,
-          dcl = t.domContentLoadedEventStart - t.domLoading,
-          complete = t.domComplete - t.domLoading;
-          var stats = document.getElementById("perfReport");
-          stats.textContent = 'DCL: ' + dcl + 'ms, onload: ' + complete + 'ms';
-      }
+  <script async>
+    function logCRP() {
+      var t = window.performance.timing,
+        dcl = t.domContentLoadedEventStart - t.domLoading,
+        complete = t.domComplete - t.domLoading;
+        var stats = document.getElementById("perfReport");
+        stats.textContent = 'DCL: ' + dcl + 'ms, onload: ' + complete + 'ms';
+    }
 
-      window.addEventListener("load", function(event) {
-        logCRP();
-      });
-    </script>  
-
+    window.addEventListener("load", function(event) {
+      logCRP();
+    });
+  </script>
 
 </body>
 </html>
